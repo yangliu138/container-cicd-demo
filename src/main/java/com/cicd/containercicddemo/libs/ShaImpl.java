@@ -6,6 +6,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class ShaImpl implements Sha {
+    private static final int STRING_RADIX = 16;
+    private static final int NUM_HEX_LEADING_ZEROS = 64;
+
     public byte[] getSHA(String input) throws NoSuchAlgorithmException
     {
         // Static getInstance method is called with hashing SHA
@@ -19,11 +22,10 @@ public class ShaImpl implements Sha {
         BigInteger number = new BigInteger(1, hash);
 
         // Convert message digest into hex value
-        StringBuilder hexString = new StringBuilder(number.toString(16));
+        StringBuilder hexString = new StringBuilder(number.toString(ShaImpl.STRING_RADIX));
 
         // Pad with leading zeros
-        while (hexString.length() < 64)
-        {
+        while (hexString.length() < ShaImpl.NUM_HEX_LEADING_ZEROS) {
             hexString.insert(0, '0');
         }
 
