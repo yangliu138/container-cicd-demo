@@ -11,12 +11,15 @@ public class ShaImpl implements Sha {
 
     public byte[] getSHA(String input) throws NoSuchAlgorithmException
     {
+        if (input == null) return null;
         // Static getInstance method is called with hashing SHA
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 
     public String toHexString(byte[] hash) {
+        if (hash == null) return null;
+
         // Convert byte array into signum representation
         BigInteger number = new BigInteger(1, hash);
 

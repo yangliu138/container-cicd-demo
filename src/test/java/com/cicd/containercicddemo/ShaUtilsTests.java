@@ -29,6 +29,9 @@ public class ShaUtilsTests {
                         assertEquals("7cf4d01afb74d4aabd81dbd7b65e9ea974c0f23cbfcf5dfa34bde0c15e4ad436",
                                 result, "Timestamp GMT should pring out the correct SHA256");
 
+                        result = sha.getShaString(null);
+                        assertEquals(null, result, "Time string is null should return null as well");
+
                 } catch (Exception e) {
                         if (e == null) {
                                 fail("should not have thrown an exception, but threw " + e);
