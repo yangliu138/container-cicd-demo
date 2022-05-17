@@ -16,8 +16,7 @@ public class ShaImpl implements Sha {
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String toHexString(byte[] hash)
-    {
+    public String toHexString(byte[] hash) {
         // Convert byte array into signum representation
         BigInteger number = new BigInteger(1, hash);
 
