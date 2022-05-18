@@ -1,5 +1,5 @@
-def imageName = 'mlabouardy/movies-store'
-def registry = 'https://registry.slowcoder.com'
+def imageName = 'leoliu1988/springboot-cicd-demo'
+def registry = 'https://hub.docker.com'
 
 node('workers'){
     stage('Checkout'){

@@ -1,0 +1,17 @@
+FROM adoptopenjdk/openjdk11
+LABEL author="Leo Liu" \
+      summary="This image is mainlay used for test purposes" \
+      description="This image is mainlay used for test purposes. The reason is that in such way we don't need to install a series of required tools on the host system." 
+
+WORKDIR /workspace/app
+
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+
+RUN ./mvnw clean package -DskipTests
+
+RUN apt update
+# Image scanning toolkit
+RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
