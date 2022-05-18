@@ -48,11 +48,14 @@ node('workers'){
         }
     }
 
-    // stage('Analyze'){
-    //     def scannedImage = "${registry}/${imageName}:${commitID()} ${workspace}/Dockerfile"
-    //     writeFile file: 'images', text: scannedImage
-    //     anchore name: 'images'
-    // }
+    stage('Scan image vulneribilities'){
+        def scannedImage = "${imageName}:${commitID()}"
+        if (env.BRANCH_NAME == 'develop') {
+            scannedImage = "${imageName}:develop"
+        }
+        echo "${scannedImage} ******"
+        sh "docker scan --accept-license ${scannedImage}"
+    }
 }
 
 def commitID() {
