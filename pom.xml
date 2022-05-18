@@ -56,6 +56,13 @@
             <version>5.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.owasp</groupId>
+            <artifactId>dependency-check-maven</artifactId>
+            <version>6.5.1</version>
+            <type>maven-plugin</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -91,11 +98,11 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>6.5.1</version>
                 <configuration>
-                    <configLocation>sun_checks.xml</configLocation>
+                    <failBuildOnCVSS>8</failBuildOnCVSS>
                 </configuration>
                 <executions>
                     <execution>
@@ -124,9 +131,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.2</version>
                 <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
+                    <configLocation>check_style.xml</configLocation>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
                     <violationSeverity>warning</violationSeverity>

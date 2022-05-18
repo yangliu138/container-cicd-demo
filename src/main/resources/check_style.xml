@@ -170,6 +170,8 @@
         <module name="MultipleVariableDeclarations"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
+        <module name="SuppressionCommentFilter">
+        <module name="FileContentsHolder"/>
 
         <!-- Checks for class design                         -->
         <!-- See https://checkstyle.org/config_design.html -->
