@@ -27,7 +27,7 @@ node('workers'){
                     reportFiles: "index.html",
                     reportName: "Coverage Report"
                 ])
-            }
+            },
             'Dependence Tests': {
                  sh "docker run --rm ${imageName}-test ./mvnw org.owasp:dependency-check-maven:check"
             }
