@@ -37,10 +37,10 @@ node('workers'){
 
     stage('Push'){
         docker.withRegistry(registry, 'git') {
-            docker.image(imageName).push(commitID())
-
             if (env.BRANCH_NAME == 'develop') {
                 docker.image(imageName).push('develop')
+            } else {
+                docker.image(imageName).push(commitID())
             }
         }
     }
