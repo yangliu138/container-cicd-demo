@@ -7,6 +7,7 @@ For the demo purpose, this repo identities some [shortcomings or improvements](#
 - Running Jenkins server. On mac recommended to install in `jenkins/jenkins` container.
 - Docker is installed on the jenkins worker/master machine
 - Set up git integration regarding credentials (password or ssh) and url in jenkins, and make the credential_id to "git"
+- Add docker registry credentials
 - Add docker plugin into Jenkins
 - Add Blue ocean plugin in Jenkins(Optional)
 

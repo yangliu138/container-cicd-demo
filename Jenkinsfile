@@ -28,6 +28,9 @@ node('workers'){
                     reportName: "Coverage Report"
                 ])
             }
+            'Dependence Tests': {
+                 sh "docker run --rm ${imageName}-test ./mvnw org.owasp:dependency-check-maven:check"
+            }
         )
     }
 
@@ -36,7 +39,7 @@ node('workers'){
     }
 
     stage('Push'){
-        docker.withRegistry(registry, 'git') {
+        docker.withRegistry('', 'docker') {
             if (env.BRANCH_NAME == 'develop') {
                 docker.image(imageName).push('develop')
             } else {
