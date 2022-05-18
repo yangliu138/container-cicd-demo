@@ -11,18 +11,19 @@ node('workers'){
     stage('Tests'){
         parallel(
             'Quality Tests': {
-                sh "docker run --rm ${imageName}-test npm run lint"
+                sh "docker run --rm ${imageName}-test ./mvnw checkstyle:checkstyle"
+                // TODO: add sonartube for deeper static code analysis, e.g. vulnerability scanning
             },
-            'Integration Tests': {
-                sh "docker run --rm ${imageName}-test npm run test"
+            'Unit and Integration Tests for APIs': {
+                sh "docker run --rm ${imageName}-test ./mvnw clean test"
             },
             'Coverage Reports': {
-                sh "docker run --rm -v $PWD/coverage:/app/coverage ${imageName}-test npm run coverage-html"
+                sh "docker run --rm -v $PWD/target/site:/workspace/app/target/site ${imageName}-test ./mvnw jacoco:report"
                 publishHTML (target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
-                    reportDir: "$PWD/coverage",
+                    reportDir: "$PWD/target/site/jacoco",
                     reportFiles: "index.html",
                     reportName: "Coverage Report"
                 ])
@@ -44,11 +45,11 @@ node('workers'){
         }
     }
 
-    stage('Analyze'){
-        def scannedImage = "${registry}/${imageName}:${commitID()} ${workspace}/Dockerfile"
-        writeFile file: 'images', text: scannedImage
-        anchore name: 'images'
-    }
+    // stage('Analyze'){
+    //     def scannedImage = "${registry}/${imageName}:${commitID()} ${workspace}/Dockerfile"
+    //     writeFile file: 'images', text: scannedImage
+    //     anchore name: 'images'
+    // }
 }
 
 def commitID() {
