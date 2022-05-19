@@ -40,6 +40,17 @@ node('workers'){
         docker.build(imageName)
     }
 
+
+    stage('Push'){
+        docker.withRegistry('', 'docker') {
+            if (env.BRANCH_NAME == 'develop') {
+                docker.image(imageName).push('develop')
+            } else {
+                docker.image(imageName).push(commitID())
+            }
+        }
+    }
+
     stage('Scan image vulneribilities'){
         // docker.withRegistry('', 'docker') {
         //     def scannedImage = "${imageName}:${commitID()}"
@@ -55,16 +66,6 @@ node('workers'){
         }
         echo "${scannedImage} ******"
         sh "docker run --rm ${imageName}-test grype ${scannedImage}"
-    }
-
-    stage('Push'){
-        docker.withRegistry('', 'docker') {
-            if (env.BRANCH_NAME == 'develop') {
-                docker.image(imageName).push('develop')
-            } else {
-                docker.image(imageName).push(commitID())
-            }
-        }
     }
 
     stage('Authentication'){
