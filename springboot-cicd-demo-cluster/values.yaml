@@ -1,0 +1,25 @@
+namespace: 'demo'
+
+metadata: 
+  git:
+    commitId: none
+  jenkins:
+    buildTag: none
+
+
+deployment:
+  image:
+    name: 'leoliu1988/springboot-cicd-demo'
+    tag: 'develop'
+
+
+services:
+  registry:
+    uri: ''
+    secret: ''
+
+service:
+  type: 'NodePort'
+  port: 8081
+  targetPort: 8081
+  nodePort: 30007

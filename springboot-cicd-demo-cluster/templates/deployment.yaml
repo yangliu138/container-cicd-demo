@@ -1,0 +1,28 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: cicd-demo
+  namespace: {{ .Values.namespace }}
+  labels: 
+    {{- include "springboot-cicd-demo-cluster.selectorLabels" . | nindent 4 }}
+spec:
+  selector: 
+    matchLabels: 
+      {{- include "springboot-cicd-demo-cluster.selectorLabels" . | nindent 6 }}
+  template: 
+    metadata: 
+      name: cicd-demo
+      labels: 
+        {{- include "springboot-cicd-demo-cluster.selectorLabels" . | nindent 8 }}
+      annotations:
+        jenkins/build: {{ .Values.metadata.jenkins.buildTag | quote }}
+        git/commitId: {{ .Values.metadata.git.commitId | quote }}
+    spec:
+      containers: 
+        - name: cicd-demo
+          image: "{{ .Values.deployment.image.name }}:{{ .Values.deployment.image.tag }}"
+          imagePullPolicy: Always
+          {{- if .Values.services.registry.secret }}
+          imagePullSecrets:
+          - name: {{ .Values.services.registry.secret }}
+          {{- end }}

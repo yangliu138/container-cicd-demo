@@ -1,5 +1,7 @@
 def imageName = 'leoliu1988/springboot-cicd-demo'
 def registry = 'https://hub.docker.com'
+def region = 'us-east-2'
+def accounts = [master:'springboot-cicd-demo-cluster', preprod:'staging', develop:'springboot-cicd-demo-cluster']
 
 node('workers'){
     stage('Checkout'){
