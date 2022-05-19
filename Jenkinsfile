@@ -54,7 +54,7 @@ node('workers'){
             scannedImage = "${imageName}:develop"
         }
         echo "${scannedImage} ******"
-        grype ${scannedImage}
+        sh "docker run --rm ${imageName}-test grype ${scannedImage}
     }
 
     stage('Push'){
