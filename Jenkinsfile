@@ -68,7 +68,7 @@ node('workers'){
     }
 
     stage('Authentication'){
-         withCredentials([usernamePassword(credentialsId: 'mycreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+         withCredentials([usernamePassword(credentialsId: 'aws', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
              sh """
                 export AWS_ACCESS_KEY_ID=${USERNAME}
                 export AWS_SECRET_ACCESS_KEY=${PASSWORD}
