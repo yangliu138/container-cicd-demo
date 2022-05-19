@@ -73,7 +73,7 @@ node('workers'){
          } 
     }
 
-    stage('Deploy'){
+    stage('Deploy') {
         def imageTag = getCommitId()
         if (env.BRANCH_NAME == 'develop') {
             imageTag = env.BRANCH_NAME
