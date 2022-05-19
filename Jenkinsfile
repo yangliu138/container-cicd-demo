@@ -40,6 +40,23 @@ node('workers'){
         docker.build(imageName)
     }
 
+    stage('Scan image vulneribilities'){
+        // docker.withRegistry('', 'docker') {
+        //     def scannedImage = "${imageName}:${commitID()}"
+        //     if (env.BRANCH_NAME == 'develop') {
+        //         scannedImage = "${imageName}:develop"
+        //     }
+        //     echo "${scannedImage} ******"
+        //     sh "docker scan --accept-license ${scannedImage}"   
+        // }
+        def scannedImage = "${imageName}:${commitID()}"
+        if (env.BRANCH_NAME == 'develop') {
+            scannedImage = "${imageName}:develop"
+        }
+        echo "${scannedImage} ******"
+        grype ${scannedImage}
+    }
+
     stage('Push'){
         docker.withRegistry('', 'docker') {
             if (env.BRANCH_NAME == 'develop') {
@@ -47,17 +64,6 @@ node('workers'){
             } else {
                 docker.image(imageName).push(commitID())
             }
-        }
-    }
-
-    stage('Scan image vulneribilities'){
-        docker.withRegistry('', 'docker') {
-            def scannedImage = "${imageName}:${commitID()}"
-            if (env.BRANCH_NAME == 'develop') {
-                scannedImage = "${imageName}:develop"
-            }
-            echo "${scannedImage} ******"
-            sh "docker scan --accept-license ${scannedImage}"   
         }
     }
 
