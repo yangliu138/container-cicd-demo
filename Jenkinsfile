@@ -60,6 +60,32 @@ node('workers'){
             sh "docker scan --accept-license ${scannedImage}"   
         }
     }
+
+    stage('Authentication'){
+         withCredentials([usernamePassword(credentialsId: 'mycreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+             sh """
+                export AWS_ACCESS_KEY_ID=${USERNAME}
+                export AWS_SECRET_ACCESS_KEY=${PASSWORD}
+                export AWS_DEFAULT_REGION=us-east-2
+                aws eks update-kubeconfig --name ${accounts[env.BRANCH_NAME]} --region ${region}
+             """
+             
+         } 
+    }
+
+    stage('Deploy'){
+        def imageTag = getCommitId()
+        if (env.BRANCH_NAME == 'develop') {
+            imageTag = env.BRANCH_NAME
+        }
+        sh """
+            helm upgrade --install cicd-demo ./springboot-cicd-demo-cluster \
+                --set metadata.jenkins.buildTag=${env.BUILD_TAG} \
+                --set metadata.git.commitId=${getCommitId()} \
+                --set deployment.image.name="${imageName}:${imageTag}" \
+                --set namespace="${env.BRANCH_NAME}"
+        """
+    }
 }
 
 def commitID() {

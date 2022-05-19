@@ -1,6 +1,6 @@
 resource "helm_release" "aws-load-balancer-controller" {
   name       = "aws-load-balancer-controller"
-  depends_on=[null_resource.post-policy, aws_eks_cluster.this, aws_eks_node_group.this]
+  depends_on=[null_resource.post-policy, aws_eks_cluster.this, aws_eks_node_group.this, aws_vpc.this]
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
@@ -24,6 +24,16 @@ resource "helm_release" "aws-load-balancer-controller" {
   set {
     name  = "image.tag"
     value = "v2.4.0"
+  }
+
+  set {
+    name = "region"
+    value = var.region
+  }
+
+   set {
+    name = "vpcId"
+    value =  aws_vpc.this.id
   }
 
 }
