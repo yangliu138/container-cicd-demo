@@ -1,7 +1,7 @@
 def imageName = 'leoliu1988/springboot-cicd-demo'
 def registry = 'https://hub.docker.com'
 def region = 'us-east-2'
-def accounts = [master:'springboot-cicd-demo-cluster', preprod:'staging', develop:'springboot-cicd-demo-cluster']
+def accounts = [master:'springboot-cicd-demo-cluster', stage:'springboot-cicd-demo-cluster-stage', develop:'springboot-cicd-demo-cluster']
 
 node('workers'){
     stage('Checkout'){
@@ -51,12 +51,14 @@ node('workers'){
     }
 
     stage('Scan image vulneribilities'){
-        def scannedImage = "${imageName}:${commitID()}"
-        if (env.BRANCH_NAME == 'develop') {
-            scannedImage = "${imageName}:develop"
+        docker.withRegistry('', 'docker') {
+            def scannedImage = "${imageName}:${commitID()}"
+            if (env.BRANCH_NAME == 'develop') {
+                scannedImage = "${imageName}:develop"
+            }
+            echo "${scannedImage} ******"
+            sh "docker scan --accept-license ${scannedImage}"   
         }
-        echo "${scannedImage} ******"
-        sh "docker scan --accept-license ${scannedImage}"
     }
 }
 
