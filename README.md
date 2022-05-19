@@ -7,10 +7,14 @@ For the demo purpose, this repo identities some [shortcomings or improvements](#
 - Running Jenkins server. On mac recommended to install in `jenkins/jenkins` container.
 - Docker, awscli, helm, kubectl (v1.23.6) are installed on the jenkins worker/master machine (This bits could be automated but for simplicity they are placed as)
 - Set up git integration regarding credentials (password or ssh) and url in jenkins, and make the credential_id to "git"
-- Add docker registry credentials
-- Add docker plugin into Jenkins
 - Add Blue ocean plugin in Jenkins(Optional)
 - Label the node running the pipeline as `workers`
+
+# Steps to configure
+- Add dockerhub credentials with id `docker` to global credentials
+- Add git credentials with id `git` to global credentials
+- Add aws credentials with id `aws` to global credentials
+- 
 
 
 # Shortcomings, Limitation and Improvements
