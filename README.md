@@ -24,6 +24,8 @@ This repo is written for demo purpose, and there might be some shortcomings or r
 # Shortcomings, Limitation and Improvements
 - Incomplete unit tests: due to time constraints, the unit tests are not complete, and are only tested around the core functionalities.
 This might cause functional issues. You can find the coverage report from `/targets/site/jacoco/index.html`
+
+- More integrate testing should be done after the app has been deployed to the EKS cluster.s
   
 - No pipelines for feature brances, so no way quickly test the dev features by skipping all the tests for example. This is skipped for this demo. This also indicates that there is no environment preparation across different stages.
 
