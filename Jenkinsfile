@@ -81,14 +81,14 @@ node('workers'){
     }
 
     stage('Deploy') {
-        def imageTag = getCommitId()
+        def imageTag = commitID()
         if (env.BRANCH_NAME == 'develop') {
             imageTag = env.BRANCH_NAME
         }
         sh """
             helm upgrade --install cicd-demo ./springboot-cicd-demo-cluster \
                 --set metadata.jenkins.buildTag=${env.BUILD_TAG} \
-                --set metadata.git.commitId=${getCommitId()} \
+                --set metadata.git.commitId=${commitID()} \
                 --set deployment.image.name="${imageName}:${imageTag}" \
                 --set namespace="${env.BRANCH_NAME}"
         """
