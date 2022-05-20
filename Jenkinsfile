@@ -87,8 +87,8 @@ node('workers'){
         }
         sh """
             helm upgrade --install cicd-demo ./springboot-cicd-demo-cluster \
-                --set metadata.jenkins.buildTag=${env.BUILD_TAG} \
-                --set metadata.git.commitId=${commitID()} \
+                --set metadata.jenkins.buildTag="${env.BUILD_TAG}" \
+                --set metadata.git.commitId="${commitID()}" \
                 --set deployment.image.name="${imageName}:${imageTag}" \
                 --set namespace="${env.BRANCH_NAME}"
         """
